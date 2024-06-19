@@ -1,14 +1,26 @@
-const axios = require('axios');
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 
-const appId = '10f1673c-d0e7-4aa4-a59a-89fe6d6c47d9';
-const restApiKey = 'ZTdlNzc5NzEtMzZlNC00ZGZhLWI4ZWUtMjNmNzA4ZTYwYWRk';
-
 app.get('/', (req, res) => {
-  res.send('Hello, this is your backend service running!');
+  res.send('Server is running!');
 });
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
+// const axios = require('axios');
+// const express = require('express');
+// const app = express();
+// const port = process.env.PORT || 3000;
+
+// const appId = '10f1673c-d0e7-4aa4-a59a-89fe6d6c47d9';
+// const restApiKey = 'ZTdlNzc5NzEtMzZlNC00ZGZhLWI4ZWUtMjNmNzA4ZTYwYWRk';
+
+// app.get('/', (req, res) => {
+//   res.send('Hello, this is your backend service running!');
+// });
 
 // app.get('/send-notification', async (req, res) => {
 //   const notification = {

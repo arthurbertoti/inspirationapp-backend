@@ -1,0 +1,8 @@
+{
+  "name": "inspirationapp-backend",
+  "description": "A simple Express server for inspirationapp",
+  "repository": "https://github.com/ruhtrabertoti/inspirationapp-backend",
+  "scripts": {
+    "postdeploy": "echo 'Server is running!'"
+  }
+}
