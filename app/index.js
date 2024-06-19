@@ -14,11 +14,10 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-
 app.get('/send-notification', async (req, res) => {
   const notification = {
     app_id: appId,
-    included_segments: ['Subscribed Users'],
+    included_segments: ['has_evening_advice'],
     headings: { en: 'Daily Advice' },
     contents: { en: 'Here is your daily advice! by app/index.js' }
   };
@@ -31,7 +30,10 @@ app.get('/send-notification', async (req, res) => {
       }
     });
     res.send('Notification sent: ' + JSON.stringify(response.data));
+    console.log("response: ", response)
+    console.log("response.data:", response.data)
   } catch (error) {
+    console.log('error:', error)
     res.status(500).send('Error sending notification: ' + error.message);
   }
 });
