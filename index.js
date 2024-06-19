@@ -15,7 +15,7 @@ app.get('/send-notification', async (req, res) => {
     app_id: appId,
     included_segments: ['Subscribed Users'],
     headings: { en: 'Daily Advice' },
-    contents: { en: 'Here is your daily advice! by app/index.js' }
+    contents: { en: 'Here is your daily advice! by index.js' }
   };
 
   try {
