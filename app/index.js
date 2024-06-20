@@ -15,7 +15,6 @@ app.listen(port, () => {
 });
 
 app.get('/send-notification', async (req, res) => {
-  console.log(s3)
   const notification = {
     app_id: appId,
     included_segments: ['has_evening_advice'],
@@ -31,10 +30,7 @@ app.get('/send-notification', async (req, res) => {
       }
     });
     res.send('Notification sent: ' + JSON.stringify(response.data));
-    console.log("response: ", response)
-    console.log("response.data:", response.data)
   } catch (error) {
-    console.log('error:', error)
     res.status(500).send('Error sending notification: ' + error.message);
   }
 });
