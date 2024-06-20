@@ -14,12 +14,12 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-app.get('/send-notification', async (req, res) => {
+app.get('/send-evening-notification', async (req, res) => {
   const notification = {
     app_id: appId,
     included_segments: ['has_evening_advice'],
-    headings: { en: 'Daily Advice' },
-    contents: { en: "Here is your daily advice! by app/index.js, {{ evening_advice | default: 'aeh' }}" }
+    headings: { en: 'Good night!' },
+    contents: { en: "'{{ evening_advice | default: 'Evening advice' }}'" }
   };
 
   try {
@@ -35,47 +35,23 @@ app.get('/send-notification', async (req, res) => {
   }
 });
 
-// app.get('/send-notification', async (req, res) => {
-//   const userId = req.query.user_id; // Pegue o user_id da query string
-//   if (!userId) {
-//     return res.status(400).send('User ID is required');
-//   }
+app.get('/send-morning-notification', async (req, res) => {
+  const notification = {
+    app_id: appId,
+    included_segments: ['has_morning_advice'],
+    headings: { en: 'Good morning!' },
+    contents: { en: "'{{ morning_advice | default: 'Morning advice' }}'" }
+  };
 
-//   try {
-//     // Primeiro, obtenha as tags do usuário
-//     const userTagsResponse = await axios.get(`https://onesignal.com/api/v1/players/${userId}?app_id=${appId}`, {
-//       headers: {
-//         'Content-Type': 'application/json; charset=utf-8',
-//         Authorization: `Basic ${restApiKey}`
-//       }
-//     });
-
-//     const userTags = userTagsResponse.data.tags;
-//     const savedPhrase = userTags['morning_advice'];
-
-//     if (!savedPhrase) {
-//       return res.status(400).send('No saved phrase found for this user');
-//     }
-
-//     // Enviar notificação com a frase salva do usuário
-//     const notification = {
-//       app_id: appId,
-//       filters: [
-//         { field: 'tag', key: 'user_id', relation: '=', value: userId }
-//       ],
-//       headings: { en: 'Your Saved Phrase' },
-//       contents: { en: savedPhrase }
-//     };
-
-//     const notificationResponse = await axios.post('https://onesignal.com/api/v1/notifications', notification, {
-//       headers: {
-//         'Content-Type': 'application/json; charset=utf-8',
-//         Authorization: `Basic ${restApiKey}`
-//       }
-//     });
-
-//     res.send('Notification sent: ' + JSON.stringify(notificationResponse.data));
-//   } catch (error) {
-//     res.status(500).send('Error sending notification: ' + error.message);
-//   }
-// });
+  try {
+    const response = await axios.post('https://onesignal.com/api/v1/notifications', notification, {
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        Authorization: `Basic ${restApiKey}`
+      }
+    });
+    res.send('Notification sent: ' + JSON.stringify(response.data));
+  } catch (error) {
+    res.status(500).send('Error sending notification: ' + error.message);
+  }
+});
