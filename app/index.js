@@ -27,9 +27,9 @@ cron.schedule('0/1 * * * *', async () => {
         Authorization: `Basic ${restApiKey}`
       }
     });
-    res.send('Notification sent: ' + JSON.stringify(response.data));
+    console.log('Notification sent: ' + JSON.stringify(response.data));
   } catch (error) {
-    res.status(500).send('Error sending notification: ' + error.message);
+    console.error('Error sending notification: ' + error.message);
   }
   console.log('Running every 1 minute');
 }, {
@@ -66,9 +66,9 @@ async function sendEveningNotification() {
         Authorization: `Basic ${restApiKey}`
       }
     });
-    res.send('Notification sent: ' + JSON.stringify(response.data));
+    console.log('Evening Notification sent: ' + JSON.stringify(response.data));
   } catch (error) {
-    res.status(500).send('Error sending notification: ' + error.message);
+    console.error('Error sending evening notification: ' + error.message);
   }
 };
 
@@ -87,8 +87,8 @@ async function sendMorningNotification() {
         Authorization: `Basic ${restApiKey}`
       }
     });
-    res.send('Notification sent: ' + JSON.stringify(response.data));
+    console.log('Evening Notification sent: ' + JSON.stringify(response.data));
   } catch (error) {
-    res.status(500).send('Error sending notification: ' + error.message);
+    console.error('Error sending evening notification: ' + error.message);
   }
 }
