@@ -11,21 +11,47 @@ app.get('/', (req, res) => {
   res.send('Server is running!');
 });
 
-cron.schedule('*/1 * * * *', () => {
-  console.log('running a task every two minutes');
+cron.schedule('0/1 * * * *', async () => {
+
+  const notification = {
+    app_id: appId,
+    included_segments: ['has_evening_advice'],
+    headings: { en: 'Good night!' },
+    contents: { en: "'{{ evening_advice | default: 'Evening advice' }}'" }
+  };
+
+  try {
+    const response = await axios.post('https://onesignal.com/api/v1/notifications', notification, {
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        Authorization: `Basic ${restApiKey}`
+      }
+    });
+    res.send('Notification sent: ' + JSON.stringify(response.data));
+  } catch (error) {
+    res.status(500).send('Error sending notification: ' + error.message);
+  }
+  console.log('Running every 1 minute');
 }, {
   scheduled: true,
   timezone: "America/Sao_Paulo"
 });
 
-cron.schedule('0 1 * * *', () => {
-  console.log('Running a job at 01:00 at America/Sao_Paulo timezone');
+cron.schedule('0 6 * * *', async () => {
+  sendMorningNotification()
 }, {
   scheduled: true,
   timezone: "America/Sao_Paulo"
 });
 
-async function sendEveningNotification(req, res) {
+cron.schedule('0 22 * * *', async () => {
+  sendEveningNotification()
+}, {
+  scheduled: true,
+  timezone: "America/Sao_Paulo"
+});
+
+async function sendEveningNotification() {
   const notification = {
     app_id: appId,
     included_segments: ['has_evening_advice'],
@@ -46,7 +72,7 @@ async function sendEveningNotification(req, res) {
   }
 };
 
-async function sendMorningNotification(req, res) {
+async function sendMorningNotification() {
   const notification = {
     app_id: appId,
     included_segments: ['has_morning_advice'],
