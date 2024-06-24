@@ -16,32 +16,6 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-cron.schedule('*/1 * * * *', async () => {
-
-  const notification = {
-    app_id: appId,
-    included_segments: ['has_evening_advice'],
-    headings: { en: 'Good night!' },
-    contents: { en: "'{{ evening_advice | default: 'Evening advice' }}'" }
-  };
-
-  try {
-    const response = await axios.post('https://onesignal.com/api/v1/notifications', notification, {
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-        Authorization: `Basic ${restApiKey}`
-      }
-    });
-    console.log('Notification sent: ' + JSON.stringify(response.data));
-  } catch (error) {
-    console.error('Error sending notification: ' + error.message);
-  }
-  console.log('Running every 1 minute');
-}, {
-  scheduled: true,
-  timezone: "America/Sao_Paulo"
-});
-
 cron.schedule('0 6 * * *', async () => {
   sendMorningNotification()
 }, {
