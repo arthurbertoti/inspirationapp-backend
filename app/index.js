@@ -11,8 +11,15 @@ app.get('/', (req, res) => {
   res.send('Server is running!');
 });
 
-cron.schedule('*/1 * * *', () => {
+cron.schedule('*/1 * * * *', () => {
   console.log('running a task every two minutes');
+}, {
+  scheduled: true,
+  timezone: "America/Sao_Paulo"
+});
+
+cron.schedule('0 1 * * *', () => {
+  console.log('Running a job at 01:00 at America/Sao_Paulo timezone');
 }, {
   scheduled: true,
   timezone: "America/Sao_Paulo"
