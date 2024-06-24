@@ -2,6 +2,7 @@ const axios = require('axios');
 const express = require('express');
 const cron = require('node-cron')
 const app = express();
+const port = process.env.PORT || 3000;
 
 
 const appId = process.env.ONESIGNAL_API_KEY
