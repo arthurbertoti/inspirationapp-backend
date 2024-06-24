@@ -1,7 +1,8 @@
 const axios = require('axios');
 const express = require('express');
+const cron = require('node-cron')
 const app = express();
-const port = process.env.PORT || 3000;
+
 
 const appId = process.env.ONESIGNAL_API_KEY
 const restApiKey = process.env.ONESIGNAL_REST_API_KEY
@@ -10,11 +11,14 @@ app.get('/', (req, res) => {
   res.send('Server is running!');
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+cron.schedule('0 1 * * *', () => {
+  console.log('Running a job at 01:00 at America/Sao_Paulo timezone');
+}, {
+  scheduled: true,
+  timezone: "America/Sao_Paulo"
 });
 
-app.get('/send-evening-notification', async (req, res) => {
+async function sendEveningNotification(req, res) {
   const notification = {
     app_id: appId,
     included_segments: ['has_evening_advice'],
@@ -33,9 +37,9 @@ app.get('/send-evening-notification', async (req, res) => {
   } catch (error) {
     res.status(500).send('Error sending notification: ' + error.message);
   }
-});
+};
 
-app.get('/send-morning-notification', async (req, res) => {
+async function sendMorningNotification(req, res) {
   const notification = {
     app_id: appId,
     included_segments: ['has_morning_advice'],
@@ -54,4 +58,4 @@ app.get('/send-morning-notification', async (req, res) => {
   } catch (error) {
     res.status(500).send('Error sending notification: ' + error.message);
   }
-});
+}
