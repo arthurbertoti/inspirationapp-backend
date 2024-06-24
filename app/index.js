@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
   res.send('Server is running!');
 });
 
-cron.schedule('0/1 * * * *', async () => {
+cron.schedule('*/1 * * * *', async () => {
 
   const notification = {
     app_id: appId,
